@@ -7,8 +7,17 @@
             "actions": [
                 {
                     "name": "Movement",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "131a2f4c-d72f-47f1-b3e0-37f6758a3b4b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Aiming",
+                    "type": "PassThrough",
+                    "id": "23735b8b-f0fc-4010-8ac8-a1beacfb3ecd",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -81,6 +90,28 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "bd09d3a4-69ef-4d1e-b495-e38489860fd5",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Aiming",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17029a15-d72f-43a6-aa79-c3ee4de515e2",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Aiming",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
