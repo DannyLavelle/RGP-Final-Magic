@@ -64,13 +64,14 @@ public class PlayerMovement : MonoBehaviour
             if(Mathf.Abs(AimPos.x) > ControllerDeadzone)
             {
                 //Vector2 aimDirection = Vector2.right*AimPos.x + Vector2.up*AimPos.y;
+                //Vector2 aimDirection = new Vector2(AimPos.x, AimPos.y).normalized;
                 Vector2 aimDirection = new Vector2(AimPos.x, AimPos.y).normalized;
                 if (aimDirection.sqrMagnitude >0.0f)
                 {
-                    float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+                    float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg -90f;
                     Quaternion newrotation = Quaternion.Euler(0f,0f,(angle+90f));
-                    pointArrow.transform.rotation = Quaternion.RotateTowards(pointArrow.transform.rotation, newrotation, rotationSmoothing*Time.deltaTime);
-                    
+                    //pointArrow.transform.rotation = Quaternion.RotateTowards(pointArrow.transform.rotation, newrotation, rotationSmoothing*Time.deltaTime);
+                    rb.rotation = angle;
                 }
             }
         }
@@ -80,9 +81,10 @@ public class PlayerMovement : MonoBehaviour
             Vector2 aimDirection = new Vector2(AimPos.x, AimPos.y).normalized;
             if (aimDirection.sqrMagnitude > 0.0f)
             {
-                float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-                Quaternion newrotation = Quaternion.Euler(0f, 0f, (angle + 90f));
-                pointArrow.transform.rotation = Quaternion.RotateTowards(pointArrow.transform.rotation, newrotation, rotationSmoothing * Time.deltaTime);
+                float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
+                Quaternion newrotation = Quaternion.Euler(0f, 0f, angle);
+                //pointArrow.transform.rotation = Quaternion.RotateTowards(pointArrow.transform.rotation, newrotation, rotationSmoothing * Time.deltaTime);
+                rb.rotation = angle;
 
             }
         }
@@ -107,12 +109,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGamepad)
         {
-            Debug.Log(playerControls.Player.Aiming.ReadValue<Vector2>());
+            //Debug.Log(playerControls.Player.Aiming.ReadValue<Vector2>());
             AimPos = playerControls.Player.Aiming.ReadValue<Vector2>();
         }
         else
         {
-            Debug.Log(Cam.ScreenToWorldPoint(playerControls.Player.Aiming.ReadValue<Vector2>()));
+            //Debug.Log(Cam.ScreenToWorldPoint(playerControls.Player.Aiming.ReadValue<Vector2>()));
             AimPos = Cam.ScreenToWorldPoint(playerControls.Player.Aiming.ReadValue<Vector2>()) - transform.position;
 
         }
@@ -121,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnDeviceChange(PlayerInput pi)
     {
         isGamepad = pi.currentControlScheme.Equals("Controller")? true:false;
-        Debug.Log("Change " + isGamepad);
+        //Debug.Log("Change " + isGamepad);
+       
     }
 }
