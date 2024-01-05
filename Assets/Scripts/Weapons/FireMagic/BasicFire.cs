@@ -20,7 +20,7 @@ public class BasicFire : MonoBehaviour
         //gameObject.transform.Rotate(0f, 0f, -90f);
         magicController = FindAnyObjectByType<FireMagicController>();
 
-        rb.AddForce(magicController.player.transform.up * flySpeed, ForceMode2D.Impulse);
+        rb.AddForce(magicController.castPoint.transform.up * flySpeed, ForceMode2D.Impulse);
 
     }
 

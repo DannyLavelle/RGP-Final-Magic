@@ -25,7 +25,7 @@ public class WeaponManager : MonoBehaviour
 
    void AssignStartingWeappn()
     {
-        switch (PlayerStats.characterClass)
+        switch (PlayerStats.instance.characterClass)
         {
             case School.Fire:
            magicInventory[0] =  Instantiate(fireMagic);
