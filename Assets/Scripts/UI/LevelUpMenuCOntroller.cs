@@ -42,8 +42,16 @@ public class LevelUpMenuCOntroller : MonoBehaviour
             }
             else
             {
-                Option1Header.text = "Level Fire Magic";
-                Option1Body.text = "TODO add fire magic description";
+                if(fireMagic.level == fireMagic.evolveLevel)
+                {
+
+                }
+                else
+                {
+                    Option1Header.text = "Upgrade Fire Magic";
+                    Option1Body.text = "Upgrade Fire Magic to Level " + (fireMagic.level + 1) + " Effects: " + fireMagic.GetNextLevelDescription();
+                }
+         
             }
 
             break;
@@ -55,13 +63,18 @@ public class LevelUpMenuCOntroller : MonoBehaviour
             if(o2Filled == false)
             {
 
-                //TODO Get statboost for option 2
+                GenerateStatBoost(2);
             }
 
         }
         if(Option3Header.text == "")
         {
-            //TODO Get upgrade for secondary weapon or statboost
+            bool o3Filled = GenerateUpgradeOption();
+            if (o3Filled == false)
+            {
+
+                GenerateStatBoost(3);
+            }
         }
     }
 
@@ -128,13 +141,240 @@ public class LevelUpMenuCOntroller : MonoBehaviour
         }
         if (emptyslot)
         {
-            //TODO make secondary magic and make a random selecter 
-            return true;
+            List<GameObject> potentialMagic = WeaponManager.WeaponManagerInstance.GetUnusedSecondary();
+            if(potentialMagic.Count > 0)
+            {
+                GameObject elementToDisplay;
+                int randomIndex = Random.Range(0, potentialMagic.Count);
+                elementToDisplay = Instantiate(potentialMagic[randomIndex]);
+                MagicTypeScript magicType = elementToDisplay.GetComponent<MagicTypeScript>();
+                Magic displayMagicType = magicType.magicType;
+                Destroy(elementToDisplay);
+
+                Option2Header.text = ("Learn " + displayMagicType.ToString() + " Magic");
+
+                switch(displayMagicType)
+                {
+                    case Magic.Necromancy:
+                    Option2Body.text = ("Capture the souls of defeated enemies to summon hordes of zombies and even bow weilding skeletons at later levels.");
+                    break;
+                    case Magic.Holy:
+                    Option2Body.text =  ("Channel the power of the divine to heal your wounds.");
+                    break;
+                    //add other submagic descriptions here
+
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
         else
         {
             return false;
         }
     }
-    
+
+
+    void GenerateStatBoost(int Option)
+    {
+       int randomEffect =  Random.Range(0, 5);
+        string header = "";
+            string body = "";
+        switch(randomEffect)
+        {
+            case 0:
+            header = "Recover";
+            body = "Recover 20 percent of your HP";
+                break;
+            case 1:
+            header = "Health Boost";
+            body = "Increase max health by 10 percent";
+                break;
+            case 2:
+            header = "Damage Boost";
+            body = "Increase your damage by 10 percent";
+            break;
+            case 3:
+            header = "Move Speed Boost";
+            body = "Increase your movement speed by 10 percent";
+            break;
+            case 4:
+            header = "Cast Speed Boost";
+            body = "Reduces your time to cast a spell by 5 percent";
+            break;
+            default:
+            header = "Couldn't generate stat Boost";
+            body = "WHHYYYYY";
+                break;
+        }
+        if(Option == 1)
+        {
+            Option1Header.text = header;
+            Option1Body.text = body;
+        }
+        else if(Option == 2)
+        {
+            Option2Header.text = header;
+            Option2Body.text=body;
+        }
+        else
+        {
+
+            Option3Header.text = header;
+            Option3Body.text = body;
+        }
+    }
+    bool GenerateUpgradeOption()
+    {
+        int numberofSecondarysMagics = WeaponManager.WeaponManagerInstance.magicInventory.Length;
+        if (numberofSecondarysMagics > 1)
+        {
+            List<GameObject> viableUpgrades = new List<GameObject>();
+            bool isFirstElement = true;
+            foreach (GameObject spell in WeaponManager.WeaponManagerInstance.magicInventory)
+            {
+                if(isFirstElement)
+                {
+                    isFirstElement = false;
+                    continue;
+                }
+                MagicTypeScript magic = spell.GetComponent<MagicTypeScript>();
+                switch(magic.magicType)
+                {
+                    case Magic.Necromancy:
+                        NecromancyController necromancyController = spell.GetComponent<NecromancyController>();
+                    if(necromancyController.level < necromancyController.maxLevel)
+                    {
+                        viableUpgrades.Add(spell);
+
+                    }
+                        break;
+                    case Magic.Holy:
+                        HolyMagicController holyMagicController = spell.GetComponent<HolyMagicController>();
+                    if(holyMagicController.level < holyMagicController.maxLevel)
+                    {
+                        viableUpgrades.Add(spell);
+                    }
+                        break;
+
+                    //add other secondary magics here
+                }
+
+            }
+            if(viableUpgrades.Count == 0)
+            {
+                return false;
+            }
+            else if(viableUpgrades.Count == 1)
+            {
+                AddUpgradeOption(viableUpgrades[0]);
+                return true;
+            }
+            else
+            {
+                AddUpgradeOption(viableUpgrades[Random.Range(0, viableUpgrades.Count)]);
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        void AddUpgradeOption(GameObject magicToUpgrade)
+        {
+            MagicTypeScript magicType = magicToUpgrade.GetComponent<MagicTypeScript>();
+            string body = "";
+            string header = "";
+            switch(magicType.magicType)
+            {
+                case Magic.Necromancy:
+                    NecromancyController necromancyController = magicToUpgrade.GetComponent<NecromancyController>();
+                header = "Upgrade Necromancy";
+                body = ("Upgrade Necromancy to Level " + (necromancyController.level + 1) + " Effects: " + necromancyController.GetNextLevelDescription());
+                    break;
+                case Magic.Holy:
+               
+                HolyMagicController holyMagicController = magicToUpgrade.GetComponent<HolyMagicController>();
+                header = "Upgrade Holy Magic";
+                body = "Upgrade Holy Magic Level " + (holyMagicController.level + 1) + " Effects: " + holyMagicController.GetNextLevelDescription();
+                break;
+                //add other secondary magic here
+                default:
+                    header ="Can't find magic type";
+                body = "in add upgrade option";
+                    break;
+
+
+            }
+            Option3Header.text = header;
+            Option3Body.text = body;
+        }
+    }
+
+    public void Option1Clicked()//time for if statement hell 
+    {
+        string header = Option1Header.text;
+
+        if (header.Contains ("Upgrade"))
+        {
+            LevelPrimary();
+        }
+        else if(header.Contains("Boost"))
+        {
+            StatBoostHandeler(header);
+        }
+        else if(header.Contains("Recover"))
+        {
+            HealPlayer();
+        }
+        //need to do evolve
+        
+    }
+
+   void LevelPrimary()
+    {
+        switch(player.characterClass)
+        {
+            case School.Fire:
+            FireMagicController fireMagic = WeaponManager.WeaponManagerInstance.magicInventory[0].GetComponent<FireMagicController>();
+            fireMagic.IncreaseLevel();
+            break;
+            //add othe primary magic here
+        }
+    }
+
+    void StatBoostHandeler(string header)
+    {
+        if(header.Contains("Health"))
+        {
+            PlayerStats.instance.healthMultiplier += .1f;
+
+            //Create an update stats on player 
+        }
+        else if(header.Contains("Damage"))
+        {
+            PlayerStats.instance.damageMultiplier += .1f;
+            //Create an update stats on player 
+        }
+        else if (header.Contains("Move Speed"))
+        {
+            PlayerStats.instance.speedMultiplier += .1f;
+            //Create an update stats on player 
+        }
+        else if (header.Contains("Cast Speed"))
+        {
+            PlayerStats.instance.castSpeedMultiplier -= .05f;
+            //Create an update stats on player 
+        }
+        //updateplayer stats probably via a player stat manager script 
+    }
+    void HealPlayer()
+    {
+//heal player when healthscript is added
+    }
 }

@@ -671,7 +671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &732901586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,9 +1735,9 @@ RectTransform:
   - {fileID: 1005668983}
   m_Father: {fileID: 606109235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 190.5, y: -304}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 590}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1458295398
@@ -2025,9 +2025,9 @@ RectTransform:
   - {fileID: 1064969834}
   m_Father: {fileID: 606109235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540.5, y: -304}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 590}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1539649414
@@ -2231,9 +2231,9 @@ RectTransform:
   - {fileID: 280851608}
   m_Father: {fileID: 606109235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 890.5, y: -304}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 590}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1837218482
@@ -2369,6 +2369,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  SecondaryMagic: []
   fireMagic: {fileID: 1801298842313906695, guid: bd7ca22fa91998440aff9b7b38ae87b6, type: 3}
 --- !u!114 &1958795639
 MonoBehaviour:
@@ -2448,63 +2449,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a469245cb7e1aa4ea63893d11e086af, type: 3}
---- !u!1001 &5605160765528474164
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 533.6492
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 347.0932
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -22.209232
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024589525113104623, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8099771698715308772, guid: f376faa27b52abc41902645ee45fca65, type: 3}
-      propertyPath: m_Name
-      value: NecromancyController
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f376faa27b52abc41902645ee45fca65, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2515,4 +2459,3 @@ SceneRoots:
   - {fileID: 3695865935226358565}
   - {fileID: 732901589}
   - {fileID: 961654178}
-  - {fileID: 5605160765528474164}

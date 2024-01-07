@@ -13,7 +13,7 @@ public class SkeletonScript : MonoBehaviour
     float timer;
     float attackCooldown = 1;
     float despawnTimer;
-    float despawnTime = 45;
+    float despawnTime = 30;
     void Start()
     {
         

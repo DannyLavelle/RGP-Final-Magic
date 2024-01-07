@@ -12,7 +12,7 @@ public class ZombieScript : MonoBehaviour
     float timer;
     float attackCooldown = 1;
     float despawnTimer;
-    float despawnTime = 45;
+    float despawnTime = 20;
     bool canAttack;
     void Start()
     {

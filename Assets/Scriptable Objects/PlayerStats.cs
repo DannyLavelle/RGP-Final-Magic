@@ -21,18 +21,19 @@ public class PlayerStats : ScriptableSingleton<PlayerStats>
 
     [SerializeField]
     [Header("Base Stats")]
-    public  int baseHealthMultiplier = 1;
+    public  float baseHealthMultiplier = 1;
     public  float baseSpeedMultiplier = 1;
-    public  int baseDamageMultiplier = 1;
+    public  float baseDamageMultiplier = 1;
     public  float basePickupRangeMultoiplier = 1;
 
     [Header("Level Stats")]
     [SerializeField]
     public  float castSpeedMultiplier = 1; // remember to minus this for faster casr times so .95 for 5% faster speed
-    public  int healthMultiplier = 1;
+    public  float healthMultiplier = 1;
     public  float speedMultiplier = 1;
-    public  int damageMultiplier = 1;
-    public  float pickupRangeMultiplier = 1;
+    public  float damageMultiplier = 1;
+    public float holy5DamageMultiplier = 1;
+ 
 
     [SerializeField]
     [Header("School")]

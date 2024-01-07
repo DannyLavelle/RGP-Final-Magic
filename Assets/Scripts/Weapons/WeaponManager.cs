@@ -7,6 +7,8 @@ public class WeaponManager : MonoBehaviour
 
     public static WeaponManager WeaponManagerInstance;
     public GameObject[] magicInventory = new GameObject[5];
+    public GameObject[] SecondaryMagic;
+    
     public GameObject fireMagic; 
     private void Awake()
     {
@@ -32,5 +34,22 @@ public class WeaponManager : MonoBehaviour
             //TODO assign image to ui
             break;
         }
+    }
+
+    public List<GameObject> GetUnusedSecondary()
+    {
+        List<GameObject> freeMagic = new List<GameObject>(SecondaryMagic);
+        //foreach(GameObject item in SecondaryMagic)
+        //{
+        //    FreeMagic.Add(item);
+        //}
+        foreach (GameObject inventory in magicInventory)
+        {
+            if (inventory != null && freeMagic.Contains(inventory))
+            {
+                freeMagic.Remove(inventory);
+            }
+        }
+        return freeMagic;
     }
 }

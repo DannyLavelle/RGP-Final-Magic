@@ -8,7 +8,7 @@ public class BasicFire : MonoBehaviour
     FireMagicController magicController ;
     public float flySpeed;
     public float flyTime = 5;
-    public float damage;
+    public float hitDamage;
     private float timer;
     Rigidbody2D rb;
     bool peircing = true;
@@ -52,5 +52,11 @@ public class BasicFire : MonoBehaviour
             //Do Damage
             Destroy(gameObject);
         }
+    }
+    public void GetStats(float damage, bool peirce,float despawnTime)
+    {
+        hitDamage = damage;
+        peircing = peirce;
+        flyTime = despawnTime;
     }
 }
