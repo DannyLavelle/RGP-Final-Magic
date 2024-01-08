@@ -43,14 +43,32 @@ public class BasicFire : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (peircing)
+        if(collision.gameObject.tag == "Enemy")
         {
-            //Do Damage
+            HealthManager healthManager = collision.gameObject.GetComponent<HealthManager>();
+            healthManager.DecreaseHealthflat(hitDamage);
+            Debug.Log("DamagedEnemyWithBasicFire");
+            if (!peircing)
+            {
+                Destroy(gameObject);
+            }
+         
         }
-        else
+        
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("basic fire colliding");
+        if (collision.gameObject.tag == "Enemy")
         {
-            //Do Damage
-            Destroy(gameObject);
+            HealthManager healthManager = collision.gameObject.GetComponent<HealthManager>();
+            healthManager.DecreaseHealthflat(hitDamage);
+            Debug.Log("DamagedEnemyWithBasicFire " + hitDamage);
+            if (!peircing)
+            {
+                Destroy(gameObject);
+            }
+
         }
     }
     public void GetStats(float damage, bool peirce,float despawnTime)

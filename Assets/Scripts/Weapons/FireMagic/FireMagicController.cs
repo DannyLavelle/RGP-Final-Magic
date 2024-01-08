@@ -21,6 +21,8 @@ public class FireMagicController : MonoBehaviour
     public Transform castPoint;
     float flytime = 5;//the players aim arrow not the player, may need to rotate 180 degrees but i will check later;
     bool willPeirce = false;
+    bool evolvedFireball;
+    bool evolvedCombust;
     private void Start()
     {
         speedMultiplier = PlayerStats.instance.castSpeedMultiplier;
@@ -70,6 +72,19 @@ public class FireMagicController : MonoBehaviour
                 BasicFire fire = spell.GetComponent<BasicFire>();
                 fire.GetStats(damage, willPeirce,  flytime);
             }
+            else if (evolvedFireball)
+            {
+                currentspell = fireball;
+            }
+            else if (evolvedCombust)
+            {
+                Combust combustion = spell.GetComponent<Combust>();
+                combustion.GetStats(damage, willPeirce, flytime);
+            }
+            else
+            {
+                currentspell = basicFire; //flamethrower is a bunch of basic fire 
+            }
         }
       
        
@@ -80,6 +95,20 @@ public class FireMagicController : MonoBehaviour
         {
             currentspell = basicFire;
         }
+       else if(evolvedFireball)
+        {
+            currentspell = fireball;
+        }
+       else if (evolvedCombust)
+        {
+            currentspell = combust;
+        }
+        else
+        {
+            currentspell = basicFire; //flamethrower is a bunch of basic fire 
+        }
+          
+           
     }
     public string GetNextLevelDescription()
     {
@@ -121,6 +150,34 @@ public class FireMagicController : MonoBehaviour
             break;
             default:
             Debug.Log("Level List not working in Necromancy");
+            break;
+        }
+    }
+    public void EvolveWeapon(string Choice)
+    {
+        level++;
+        switch (Choice)
+        {
+            case "Flamethrower"://dps 100
+            projectileCount = 10;//SPWEW LOADS OF FLAMES
+            damage /= 10; //low damage per flame
+            castcooldown /= 10;//spew flames quickly
+            willPeirce = true;//make flames peirce
+            flytime = 1;//shortwen range to 1 second out
+                break;
+            case"Fireball"://DPS 75 with medium AOE 
+            projectileCount = 1;
+            damage = 75;
+            castcooldown = 1;
+            evolvedFireball = true;
+            willPeirce = false;
+                break;
+            case "Combust"://DPS 60 but massive AOE
+            projectileCount = 1;
+            damage = 300;
+            castcooldown = 5;
+            evolvedCombust = true;
+            willPeirce = false;
             break;
         }
     }

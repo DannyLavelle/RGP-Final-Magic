@@ -14,6 +14,7 @@ public class ZombieScript : MonoBehaviour
     float despawnTimer;
     float despawnTime = 20;
     bool canAttack;
+    public float damage = 10;
     void Start()
     {
 
@@ -32,7 +33,7 @@ public class ZombieScript : MonoBehaviour
         }
         else
         {
-            timer += Time.deltaTime;
+        
         }
 
         if (timer >= attackCooldown)
@@ -59,15 +60,26 @@ public class ZombieScript : MonoBehaviour
     }
     void Attack()
     {
-        GameObject Shot = Instantiate(Arrow);
-        ArrowScript arrowScript = Shot.GetComponent<ArrowScript>();
-        arrowScript.SetTarget(target);
+        canAttack = true;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if(canAttack)
+        if(canAttack && collision.gameObject.tag == "Enemy")
         {
-            //Do Damage
+            Debug.Log("Attacked enemy");
+            HealthManager healthManager = collision.gameObject.GetComponent<HealthManager>();
+            healthManager.DecreaseHealthflat(damage);
+            canAttack = false;
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (canAttack && collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Attacked enemy");
+            HealthManager healthManager = collision.gameObject.GetComponent<HealthManager>();
+            healthManager.DecreaseHealthflat(damage);
+            canAttack = false;
         }
     }
 }

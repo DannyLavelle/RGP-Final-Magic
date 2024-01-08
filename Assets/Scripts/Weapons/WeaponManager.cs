@@ -6,9 +6,9 @@ public class WeaponManager : MonoBehaviour
 {
 
     public static WeaponManager WeaponManagerInstance;
-    public GameObject[] magicInventory = new GameObject[5];
+    public GameObject[] magicInventory;
     public GameObject[] SecondaryMagic;
-    
+   public float gameTimer;
     public GameObject fireMagic; 
     private void Awake()
     {
@@ -18,6 +18,10 @@ public class WeaponManager : MonoBehaviour
             return;
         }
         WeaponManagerInstance = this;
+    }
+    private void Update()
+    {
+        gameTimer = Time.deltaTime;
     }
     // Start is called before the first frame update
     void Start()
@@ -51,5 +55,21 @@ public class WeaponManager : MonoBehaviour
             }
         }
         return freeMagic;
+    }
+    public void addSecondary(Magic magicTypeinput)
+    {
+        foreach(GameObject inventory in SecondaryMagic)
+        {
+            GameObject magic = Instantiate(inventory);
+            MagicTypeScript magic1 = magic.GetComponent<MagicTypeScript>();
+            if(magic1.magicType== magicTypeinput)
+            {
+                magicInventory[magicInventory.Length] = inventory;
+            }
+            else
+            {
+                Destroy(inventory);
+            }
+        }
     }
 }

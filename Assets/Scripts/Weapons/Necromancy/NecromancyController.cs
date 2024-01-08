@@ -9,7 +9,7 @@ public class NecromancyController : MonoBehaviour
     float timer;
     public float castcooldown = 15;
     public float speedMultiplier;
-    float SoulsCollected;
+    public float SoulsCollected;
     public int level = 0;
     public int maxLevel = 5;
     float ExtraSpawns = 1;
@@ -80,7 +80,7 @@ public class NecromancyController : MonoBehaviour
             }
         }
 
-
+        SoulsCollected = 0;
     }
     public string GetNextLevelDescription()
     {

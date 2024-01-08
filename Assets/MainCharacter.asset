@@ -20,9 +20,9 @@ MonoBehaviour:
   healthMultiplier: 1
   speedMultiplier: 1
   damageMultiplier: 1
-  pickupRangeMultiplier: 1
+  holy5DamageMultiplier: 1
   characterClass: 0
-  level: 1
-  CurrentXP: 1
-  XPToNextLevel: 2
+  level: 2
+  CurrentXP: 0
+  XPToNextLevel: 4
   XPMultiplier: 2

@@ -13,25 +13,33 @@ public class LevelUpMenuCOntroller : MonoBehaviour
     public TMP_Text Option1Body;
     public TMP_Text Option2Body;
     public TMP_Text Option3Body;
-
+    public GameObject levelUpMenu;
+        GameObject Player;
+    HealthManager health;
     //To Generate
     GameObject[] magicSlots;
-    PlayerStats player;
-
+    PlayerStats playerStats;
+    Magic magicToLearn;
     //Magic Types
     FireMagicController fireMagic;
     private void Start()
     {
-        player = PlayerStats.instance;
+        Player = GameObject.FindGameObjectWithTag("Player");
+        health = Player.GetComponent<HealthManager>();
+        playerStats = PlayerStats.instance;
     }
     public void GenerateLevelUpMenu()
     {
+        levelUpMenu.SetActive(true);
+        Time.timeScale = 0f;
         magicSlots = WeaponManager.WeaponManagerInstance.magicInventory;
         Option1Body.text = "";
         Option2Body.text = "";
         Option3Body.text = "";
         Option1Header.text = "";
-        switch(player.characterClass)
+        Option2Header.text = "";
+        Option3Header.text = "";
+        switch (playerStats.characterClass)
         {
             case School.Fire:
             fireMagic = magicSlots[0].GetComponent<FireMagicController>();
@@ -90,14 +98,14 @@ public class LevelUpMenuCOntroller : MonoBehaviour
         string Path1Body = "";
         string Path2Body = "";
         string Path3Body = "";
-        switch(player.characterClass)
+        switch(playerStats.characterClass)
         {
             case School.Fire:
             level = fireMagic.level;
             evoLevel = fireMagic.evolveLevel;
-            Path1Header = "FlameThrower";
-            Path2Header = "FireBall";
-            Path3Header = "Combustion";
+            Path1Header = "Evolve: FlameThrower";
+            Path2Header = "Evolve: FireBall";
+            Path3Header = "Evolve: Combustion";
             Path1Body = "A short range flamethrower what burns everythin in it's area";
             Path2Body = "A fireball that explodes dealing damage to all enemie in it's explosion radius";
             Path3Body = "Mark an enemy after some time or after enemies are defeated they explode dealing massive damage in a large radius ";
@@ -150,7 +158,7 @@ public class LevelUpMenuCOntroller : MonoBehaviour
                 MagicTypeScript magicType = elementToDisplay.GetComponent<MagicTypeScript>();
                 Magic displayMagicType = magicType.magicType;
                 Destroy(elementToDisplay);
-
+                magicToLearn = displayMagicType;
                 Option2Header.text = ("Learn " + displayMagicType.ToString() + " Magic");
 
                 switch(displayMagicType)
@@ -242,27 +250,31 @@ public class LevelUpMenuCOntroller : MonoBehaviour
                     isFirstElement = false;
                     continue;
                 }
-                MagicTypeScript magic = spell.GetComponent<MagicTypeScript>();
-                switch(magic.magicType)
+                if (spell !=null)
                 {
-                    case Magic.Necromancy:
+                    MagicTypeScript magic = spell.GetComponent<MagicTypeScript>();
+                    switch (magic.magicType)
+                    {
+                        case Magic.Necromancy:
                         NecromancyController necromancyController = spell.GetComponent<NecromancyController>();
-                    if(necromancyController.level < necromancyController.maxLevel)
-                    {
-                        viableUpgrades.Add(spell);
+                        if (necromancyController.level < necromancyController.maxLevel)
+                        {
+                            viableUpgrades.Add(spell);
 
-                    }
+                        }
                         break;
-                    case Magic.Holy:
+                        case Magic.Holy:
                         HolyMagicController holyMagicController = spell.GetComponent<HolyMagicController>();
-                    if(holyMagicController.level < holyMagicController.maxLevel)
-                    {
-                        viableUpgrades.Add(spell);
-                    }
+                        if (holyMagicController.level < holyMagicController.maxLevel)
+                        {
+                            viableUpgrades.Add(spell);
+                        }
                         break;
 
-                    //add other secondary magics here
+                        //add other secondary magics here
+                    }
                 }
+                
 
             }
             if(viableUpgrades.Count == 0)
@@ -332,13 +344,65 @@ public class LevelUpMenuCOntroller : MonoBehaviour
         {
             HealPlayer();
         }
-        //need to do evolve
-        
+        if(header.Contains("Evolve"))
+        {
+            EvolvePrimary(1);
+        }
+
+        Time.timeScale = 1f;
+        levelUpMenu.SetActive(false);
+    }
+    public void Option2Clicked()//time for if statement hell 
+    {
+        string header = Option2Header.text;
+
+        if (header.Contains("Learn"))
+        {
+            WeaponManager.WeaponManagerInstance.addSecondary(magicToLearn);
+        }
+        else if (header.Contains("Boost"))
+        {
+            StatBoostHandeler(header);
+        }
+        else if (header.Contains("Recover"))
+        {
+            HealPlayer();
+        }
+        if (header.Contains("Evolve"))
+        {
+            EvolvePrimary(2);
+        }
+
+        Time.timeScale = 1f;
+        levelUpMenu.SetActive(false);
+    }
+    public void Option3Clicked()//time for if statement hell 
+    {
+        string header = Option3Header.text;
+
+        if (header.Contains("Upgrade"))
+        {
+            UpgradeSecondary(header);
+        }
+        else if (header.Contains("Boost"))
+        {
+            StatBoostHandeler(header);
+        }
+        else if (header.Contains("Recover"))
+        {
+            HealPlayer();
+        }
+        if (header.Contains("Evolve"))
+        {
+            EvolvePrimary(2);
+        }
+        Time.timeScale = 1f;
+        levelUpMenu.SetActive(false);
     }
 
-   void LevelPrimary()
+    void LevelPrimary()
     {
-        switch(player.characterClass)
+        switch(playerStats.characterClass)
         {
             case School.Fire:
             FireMagicController fireMagic = WeaponManager.WeaponManagerInstance.magicInventory[0].GetComponent<FireMagicController>();
@@ -375,6 +439,43 @@ public class LevelUpMenuCOntroller : MonoBehaviour
     }
     void HealPlayer()
     {
-//heal player when healthscript is added
+      
+        health.IncreaseHealthPercent(.2f);
+    }
+    void EvolvePrimary(int option)
+    {
+       switch (playerStats.characterClass)
+        {
+            case School.Fire:
+            
+                if(option == 1)
+            {
+                fireMagic.EvolveWeapon("Flamethrower");
+            }
+                else if (option == 2)
+            {
+                fireMagic.EvolveWeapon("Fireball");
+            }
+                else if (option == 3)
+            {
+                fireMagic.EvolveWeapon("Combust");
+            }
+            break;//
+        }
+       
+    }
+    void UpgradeSecondary(string Header)
+    {
+        if(Header.Contains("Necromancy"))
+        {
+            NecromancyController necromancy = GameObject.FindAnyObjectByType<NecromancyController>();
+            necromancy.IncreaseLevel();
+
+        }
+        else if(Header.Contains("Holy"))
+        {
+            HolyMagicController holy = GameObject.FindAnyObjectByType<HolyMagicController>();   
+            holy.IncreaseLevel();
+        }
     }
 }

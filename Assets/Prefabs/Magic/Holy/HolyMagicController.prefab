@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 127833230368945455}
   - component: {fileID: 8669771413267060731}
+  - component: {fileID: 5675062728038614590}
   m_Layer: 0
   m_Name: HolyMagicController
   m_TagString: Untagged
@@ -46,5 +47,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   castcooldown: 5
   speedMultiplier: 0
-  level: 0
-  heaamount: 10
+  level: 1
+  healAmountFlat: 10
+  maxLevel: 5
+--- !u!114 &5675062728038614590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181743443718284216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920b0c0cb13e8864bb0e07a07c20ee91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magicType: 5

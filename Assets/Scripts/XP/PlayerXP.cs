@@ -6,8 +6,12 @@ using UnityEngine;
 public class PlayerXP : MonoBehaviour
 {
     PlayerStats stats;
+    public GameObject UI;
+   LevelUpMenuCOntroller levelUpMenuController;
     private void Start()
-    {
+    { 
+        UI = GameObject.FindGameObjectWithTag("UI");
+        levelUpMenuController = UI.GetComponent<LevelUpMenuCOntroller>();
         stats = PlayerStats.instance;
     }
     public void GainXP(float value)
@@ -17,7 +21,7 @@ public class PlayerXP : MonoBehaviour
         {
             stats.level++;
 
-            //level up sequence todo with ui
+          levelUpMenuController.GenerateLevelUpMenu();
             stats.CurrentXP -= stats.XPToNextLevel;
             stats.XPToNextLevel *= stats.XPMultiplier;
         }
