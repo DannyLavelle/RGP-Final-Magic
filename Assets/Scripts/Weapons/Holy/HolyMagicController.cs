@@ -35,9 +35,11 @@ public class HolyMagicController : MonoBehaviour
 
     void CastSpell()
     {
-        float healamount = healAmountFlat; // + playermaxhealth *;
+        GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        HealthManager health = Player.GetComponent<HealthManager>();
+        float healamount = healAmountFlat + (health.maxHealth*healAmountPercent); // + playermaxhealth *;
         Debug.Log("Holy Magic Triggering");
-      //healPlayer
+     health.IncreaseHealthflat(healamount);
       if(enableHealToDamage)
         {
             float damageMultiplier = (healamount * 0.1f)/100;

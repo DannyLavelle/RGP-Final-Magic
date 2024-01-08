@@ -10,6 +10,7 @@ public class ArrowScript : MonoBehaviour
     public GameObject target;
     float despawnTimer;
     float despawnTime = 3;
+    float damage = 10;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -53,6 +54,14 @@ public class ArrowScript : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             //Deal damage
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            HealthManager health = collision.gameObject.GetComponent<HealthManager>();
+            health.DecreaseHealthflat(damage);
         }
     }
 }

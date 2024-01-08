@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FirstScreenController : MonoBehaviour
 {
     public GameObject nextScreen;
     public void PlayButton()
     {
-        nextScreen.SetActive(true);
-        gameObject.SetActive(false);
+        SceneManager.LoadScene(1);
     }
     public void Exit()
     {

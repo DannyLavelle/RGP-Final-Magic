@@ -64,10 +64,10 @@ public class EnemyScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collided");
+        //Debug.Log("Collided");
         if (canAttack && collision.gameObject.tag == "Player")
         {
-            Debug.Log("AttackingPlayer");
+            //Debug.Log("AttackingPlayer");
             HealthManager healthManager = collision.gameObject.GetComponent<HealthManager>();
             healthManager.DecreaseHealthflat(damage);
             canAttack = false;
@@ -75,10 +75,10 @@ public class EnemyScript : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collided Trigger");
+        //Debug.Log("Collided Trigger");
         if (canAttack && collision.gameObject.tag == "Player")
         {
-            Debug.Log("AttackingPlayer");
+            //Debug.Log("AttackingPlayer");
             HealthManager healthManager = collision.gameObject.GetComponent<HealthManager>();
             healthManager.DecreaseHealthflat(damage);
             canAttack = false;
@@ -86,7 +86,7 @@ public class EnemyScript : MonoBehaviour
     }
     void GetStats()
     {
-        float gamestage = Mathf.Floor(WeaponManager.WeaponManagerInstance.gameTimer / 15);
+        float gamestage = Mathf.Floor(WeaponManager.WeaponManagerInstance.gameTimer / 10);
         float multiplier = Mathf.Pow(1.05f, gamestage);
         damage *= multiplier;
         moveSpeed *= multiplier;

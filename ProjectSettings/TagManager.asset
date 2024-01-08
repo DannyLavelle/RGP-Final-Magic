@@ -8,6 +8,8 @@ TagManager:
   - XP
   - UI
   - Enemy
+  - Necromancy
+  - Holy
   layers:
   - Default
   - TransparentFX

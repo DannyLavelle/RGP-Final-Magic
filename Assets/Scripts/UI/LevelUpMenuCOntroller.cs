@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelUpMenuCOntroller : MonoBehaviour
 {
@@ -14,22 +15,26 @@ public class LevelUpMenuCOntroller : MonoBehaviour
     public TMP_Text Option2Body;
     public TMP_Text Option3Body;
     public GameObject levelUpMenu;
-        GameObject Player;
+    public GameObject UI;
+    GameObject Player;
     HealthManager health;
     //To Generate
-    GameObject[] magicSlots;
+    List<GameObject> magicSlots;
+    //GameObject[] magicSlots;
     PlayerStats playerStats;
     Magic magicToLearn;
     //Magic Types
     FireMagicController fireMagic;
     private void Start()
     {
+        Time.timeScale = 1f;
         Player = GameObject.FindGameObjectWithTag("Player");
         health = Player.GetComponent<HealthManager>();
         playerStats = PlayerStats.instance;
     }
     public void GenerateLevelUpMenu()
     {
+        UI.SetActive(false);
         levelUpMenu.SetActive(true);
         Time.timeScale = 0f;
         magicSlots = WeaponManager.WeaponManagerInstance.magicInventory;
@@ -52,7 +57,7 @@ public class LevelUpMenuCOntroller : MonoBehaviour
             {
                 if(fireMagic.level == fireMagic.evolveLevel)
                 {
-
+                    GenerateStatBoost(1);
                 }
                 else
                 {
@@ -135,18 +140,20 @@ public class LevelUpMenuCOntroller : MonoBehaviour
     {
         bool emptyslot = false;
         
-        int emptySlotLocation = 0;
-        magicSlots = WeaponManager.WeaponManagerInstance.magicInventory;
-        for(int i = 1; i < magicSlots.Length; i++)
-        {
-            if(magicSlots[i] == null)
-            {
-                emptyslot = true;
-                emptySlotLocation = i;
-                break;
-            }
+        //int emptySlotLocation = 0;
+        //magicSlots = WeaponManager.WeaponManagerInstance.magicInventory;
+        //for(int i = 1; i < magicSlots.Length; i++)
+        //{
+        //    if(magicSlots[i] == null)
+        //    {
+        //        emptyslot = true;
+        //        Debug.Log(
+        //        emptySlotLocation = i;
+        //        break;
+        //    }
             
-        }
+        //}
+        emptyslot = true;
         if (emptyslot)
         {
             List<GameObject> potentialMagic = WeaponManager.WeaponManagerInstance.GetUnusedSecondary();
@@ -238,7 +245,8 @@ public class LevelUpMenuCOntroller : MonoBehaviour
     }
     bool GenerateUpgradeOption()
     {
-        int numberofSecondarysMagics = WeaponManager.WeaponManagerInstance.magicInventory.Length;
+        //int numberofSecondarysMagics = WeaponManager.WeaponManagerInstance.magicInventory.Length;
+        int numberofSecondarysMagics = WeaponManager.WeaponManagerInstance.magicInventory.Count;
         if (numberofSecondarysMagics > 1)
         {
             List<GameObject> viableUpgrades = new List<GameObject>();
@@ -305,13 +313,14 @@ public class LevelUpMenuCOntroller : MonoBehaviour
             switch(magicType.magicType)
             {
                 case Magic.Necromancy:
-                    NecromancyController necromancyController = magicToUpgrade.GetComponent<NecromancyController>();
+                GameObject Necromancyininventory = GameObject.FindGameObjectWithTag("Necromancy");
+                    NecromancyController necromancyController = Necromancyininventory.GetComponent<NecromancyController>();
                 header = "Upgrade Necromancy";
                 body = ("Upgrade Necromancy to Level " + (necromancyController.level + 1) + " Effects: " + necromancyController.GetNextLevelDescription());
                     break;
                 case Magic.Holy:
-               
-                HolyMagicController holyMagicController = magicToUpgrade.GetComponent<HolyMagicController>();
+                GameObject Holyininventory = GameObject.FindGameObjectWithTag("Holy");
+                HolyMagicController holyMagicController = Holyininventory.GetComponent<HolyMagicController>();
                 header = "Upgrade Holy Magic";
                 body = "Upgrade Holy Magic Level " + (holyMagicController.level + 1) + " Effects: " + holyMagicController.GetNextLevelDescription();
                 break;
@@ -348,7 +357,7 @@ public class LevelUpMenuCOntroller : MonoBehaviour
         {
             EvolvePrimary(1);
         }
-
+        UI.SetActive(true);
         Time.timeScale = 1f;
         levelUpMenu.SetActive(false);
     }
@@ -372,7 +381,7 @@ public class LevelUpMenuCOntroller : MonoBehaviour
         {
             EvolvePrimary(2);
         }
-
+        UI.SetActive(true);
         Time.timeScale = 1f;
         levelUpMenu.SetActive(false);
     }
@@ -394,10 +403,13 @@ public class LevelUpMenuCOntroller : MonoBehaviour
         }
         if (header.Contains("Evolve"))
         {
-            EvolvePrimary(2);
+            EvolvePrimary(3);
         }
         Time.timeScale = 1f;
+
+        UI.SetActive(true);
         levelUpMenu.SetActive(false);
+       
     }
 
     void LevelPrimary()
@@ -435,7 +447,8 @@ public class LevelUpMenuCOntroller : MonoBehaviour
             PlayerStats.instance.castSpeedMultiplier -= .05f;
             //Create an update stats on player 
         }
-        //updateplayer stats probably via a player stat manager script 
+        PlayerStats.instance.UpdateStats();
+       
     }
     void HealPlayer()
     {
@@ -477,5 +490,14 @@ public class LevelUpMenuCOntroller : MonoBehaviour
             HolyMagicController holy = GameObject.FindAnyObjectByType<HolyMagicController>();   
             holy.IncreaseLevel();
         }
+    }
+    public void Retry()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+    public void Exit()
+    {
+        SceneManager.LoadScene(0);
     }
 }

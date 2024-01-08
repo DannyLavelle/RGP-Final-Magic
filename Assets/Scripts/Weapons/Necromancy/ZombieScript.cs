@@ -7,7 +7,7 @@ public class ZombieScript : MonoBehaviour
     GameObject[] enemies;
     GameObject target;
     public GameObject Arrow;
-    public float attackRange = .1f;
+    public float attackRange = .4f;
     public float moveSpeed = 3;
     float timer;
     float attackCooldown = 1;
@@ -23,6 +23,7 @@ public class ZombieScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer+=Time.deltaTime;
         if (target == null)
         {
             GetTarget();
@@ -76,7 +77,7 @@ public class ZombieScript : MonoBehaviour
     {
         if (canAttack && collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("Attacked enemy");
+            Debug.Log("xombie attack");
             HealthManager healthManager = collision.gameObject.GetComponent<HealthManager>();
             healthManager.DecreaseHealthflat(damage);
             canAttack = false;

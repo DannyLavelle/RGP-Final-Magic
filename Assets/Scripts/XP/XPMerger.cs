@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
 
 public class XPMerger : MonoBehaviour
 {
-    public float mergeDistance = 1.0f;
+    public float mergeDistance = 3.0f;
     // Start is called before the first frame update
     void Start()
     {

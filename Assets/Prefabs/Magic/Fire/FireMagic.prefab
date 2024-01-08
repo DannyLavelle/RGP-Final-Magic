@@ -51,9 +51,10 @@ MonoBehaviour:
   level: 1
   basicFire: {fileID: 6869234010024589152, guid: fe6610a853e91c54fad695ce82e77ca7, type: 3}
   flamethrower: {fileID: 0}
-  fireball: {fileID: 0}
-  combust: {fileID: 0}
+  fireball: {fileID: 6869234010024589152, guid: 29f14dc931915d944bb4be32775dbb1f, type: 3}
+  combust: {fileID: 6869234010024589152, guid: 202ca351f26c45b48823919ebe8fcb04, type: 3}
   evolveLevel: 5
+  damage: 10
   castPoint: {fileID: 0}
 --- !u!114 &5117256251290272183
 MonoBehaviour:

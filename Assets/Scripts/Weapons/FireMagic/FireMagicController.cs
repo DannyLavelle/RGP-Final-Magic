@@ -17,12 +17,13 @@ public class FireMagicController : MonoBehaviour
     public int evolveLevel = 5;
     float projectileCount = 1;
     GameObject currentspell;
-    float damage = 10;
+    public float damage = 10;
     public Transform castPoint;
     float flytime = 5;//the players aim arrow not the player, may need to rotate 180 degrees but i will check later;
     bool willPeirce = false;
     bool evolvedFireball;
     bool evolvedCombust;
+    float maxOffset = .5f;
     private void Start()
     {
         speedMultiplier = PlayerStats.instance.castSpeedMultiplier;
@@ -54,36 +55,45 @@ public class FireMagicController : MonoBehaviour
             GameObject spell;
             if (i!=0)
             {
-                float randomOffset = Random.Range(-15f, 15f);
+                float offsetX = Random.Range(-maxOffset,maxOffset);
+                float offsetY = Random.Range(-maxOffset, maxOffset);
 
                 // Apply the offset to the rotation
-                Quaternion rotatedRotation = Quaternion.Euler(0, 0, castPoint.rotation.eulerAngles.z + randomOffset);
-
+              
+                 SpawnPosition = castPoint.position + new Vector3(offsetX, offsetY);
                 // Instantiate the spell with the rotated rotation
-                spell = Instantiate(currentspell, SpawnPosition, rotatedRotation);
+                spell = Instantiate(currentspell, SpawnPosition, castPoint.transform.rotation);
+           
             }
             else
             {
+                Debug.Log("combustion " + i + " (second) " + castcooldown);
                 spell = Instantiate(currentspell, SpawnPosition, castPoint.rotation);
+                
             }
 
             if (level < evolveLevel)
             {
                 BasicFire fire = spell.GetComponent<BasicFire>();
-                fire.GetStats(damage, willPeirce,  flytime);
+                fire.GetStats(damage, willPeirce, flytime);
             }
-            else if (evolvedFireball)
+            else 
+            if (evolvedFireball)
             {
                 currentspell = fireball;
+                Fireball fireballs = spell.GetComponent<Fireball>();
+                fireballs.GetStats(damage, willPeirce, flytime);
             }
             else if (evolvedCombust)
             {
+               
                 Combust combustion = spell.GetComponent<Combust>();
                 combustion.GetStats(damage, willPeirce, flytime);
             }
             else
             {
-                currentspell = basicFire; //flamethrower is a bunch of basic fire 
+                BasicFire fire = spell.GetComponent<BasicFire>();
+                fire.GetStats(damage, willPeirce, flytime); //flamethrower is a bunch of basic fire 
             }
         }
       
@@ -160,22 +170,24 @@ public class FireMagicController : MonoBehaviour
         {
             case "Flamethrower"://dps 100
             projectileCount = 10;//SPWEW LOADS OF FLAMES
-            damage /= 10; //low damage per flame
+            damage = 15; //low damage per flame
             castcooldown /= 10;//spew flames quickly
             willPeirce = true;//make flames peirce
-            flytime = 1;//shortwen range to 1 second out
+            flytime = .3f;//shortwen range to 1 second out
+            maxOffset = 1;
                 break;
             case"Fireball"://DPS 75 with medium AOE 
             projectileCount = 1;
             damage = 75;
-            castcooldown = 1;
+            castcooldown = 2;
             evolvedFireball = true;
             willPeirce = false;
                 break;
             case "Combust"://DPS 60 but massive AOE
+            Debug.Log("Evolving COmbust");
             projectileCount = 1;
             damage = 300;
-            castcooldown = 5;
+            castcooldown = 12;
             evolvedCombust = true;
             willPeirce = false;
             break;

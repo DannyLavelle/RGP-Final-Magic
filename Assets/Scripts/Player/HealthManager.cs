@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
      public float maxHealth;
     public float baseMaxHealth = 100;
-    float currentHealth;
+    public float currentHealth;
    public GameObject xpOrb;
+    public Slider slider;
     private void Start()
     {
         maxHealth = baseMaxHealth ;
@@ -21,7 +23,7 @@ public class HealthManager : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
-           
+        UpdateSlider(); 
     }
     public void DecreaseHealthflat(float value)
     {
@@ -30,7 +32,7 @@ public class HealthManager : MonoBehaviour
         {
             Death();
         }
-
+        UpdateSlider();
     }
     public void IncreaseHealthPercent(float value)
     {
@@ -39,7 +41,7 @@ public class HealthManager : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
-
+        UpdateSlider();
     }
     public void DecreaseHealthPercent(float value)
     {
@@ -48,22 +50,25 @@ public class HealthManager : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
-
+        UpdateSlider();
     }
     public void ChangeMaxHealthMultiplier(float value)
     {
-        maxHealth *= value;
-        currentHealth *= value;
+        float tempMax = maxHealth;
+        maxHealth = baseMaxHealth * value;
+        currentHealth += (tempMax - maxHealth);
+        UpdateSlider();
     }
     void Death()
     {
         if(gameObject.tag == "Player")
         {
-            //DoDeathSequence
+            PlayerStats.instance.DeathSequence();
         }
         else
         {
             Instantiate(xpOrb, gameObject.transform.position,gameObject.transform.rotation);
+            SpawnManager.recordedDeaths++;
             //Instantiate(gameObject);
             AddSouls();
             //enemy may end up pickjing up xp
@@ -72,9 +77,10 @@ public class HealthManager : MonoBehaviour
     }
     void AddSouls()
     {
-        Debug.Log("adding souls");
-        GameObject[] spells = WeaponManager.WeaponManagerInstance.magicInventory;
-        Debug.Log(spells);
+        ;
+        //GameObject[] spells = WeaponManager.WeaponManagerInstance.magicInventory;
+        List<GameObject> spells = WeaponManager.WeaponManagerInstance.magicInventory;
+        //Debug.Log(spells);
         foreach(GameObject spell in spells)
         {
             if (spell !=null)
@@ -82,6 +88,7 @@ public class HealthManager : MonoBehaviour
                 MagicTypeScript magicType = spell.GetComponent<MagicTypeScript>();
                 if (magicType.magicType == Magic.Necromancy)
                 {
+                    Debug.Log("adding souls");
                     NecromancyController necromancy = spell.GetComponent<NecromancyController>();
                     necromancy.SoulsCollected++;
                 }
@@ -90,5 +97,12 @@ public class HealthManager : MonoBehaviour
          
         }
     }
- 
+    private void UpdateSlider()
+    {
+        if(gameObject.tag =="Player")
+        {
+            slider.value = currentHealth / maxHealth;
+        }
+       
+    }
 }

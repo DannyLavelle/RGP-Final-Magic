@@ -6,7 +6,8 @@ public class WeaponManager : MonoBehaviour
 {
 
     public static WeaponManager WeaponManagerInstance;
-    public GameObject[] magicInventory;
+    public List<GameObject> magicInventory;
+    /*public GameObject[] magicInventory;*/
     public GameObject[] SecondaryMagic;
    public float gameTimer;
     public GameObject fireMagic; 
@@ -64,11 +65,12 @@ public class WeaponManager : MonoBehaviour
             MagicTypeScript magic1 = magic.GetComponent<MagicTypeScript>();
             if(magic1.magicType== magicTypeinput)
             {
-                magicInventory[magicInventory.Length] = inventory;
+                //magicInventory[magicInventory.Length] = inventory;
+                magicInventory.Add(inventory);
             }
             else
             {
-                Destroy(inventory);
+                Destroy(magic);
             }
         }
     }

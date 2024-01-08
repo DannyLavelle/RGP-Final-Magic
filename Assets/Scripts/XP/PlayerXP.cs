@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerXP : MonoBehaviour
 {
     PlayerStats stats;
     public GameObject UI;
    LevelUpMenuCOntroller levelUpMenuController;
+    public Slider slider;
     private void Start()
     { 
         UI = GameObject.FindGameObjectWithTag("UI");
@@ -26,7 +28,7 @@ public class PlayerXP : MonoBehaviour
             stats.XPToNextLevel *= stats.XPMultiplier;
         }
 
-        //updateui
+        slider.value = stats.CurrentXP/stats.XPToNextLevel;
     }
     //private void OnCollisionEnter2D(Collision2D collision)
     //{

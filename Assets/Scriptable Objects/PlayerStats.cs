@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 public enum School
@@ -10,23 +11,30 @@ public enum School
     Water,
 
 }
-[CreateAssetMenu(fileName = "NewCharacterData", menuName = "Character Data")]
-public class PlayerStats : ScriptableSingleton<PlayerStats>
+//[CreateAssetMenu(fileName = "NewCharacterData", menuName = "Character Data")]
+
+public class PlayerStats : MonoBehaviour
 {
+    public static PlayerStats instance = new PlayerStats();
     
+    GameObject MenuController;
+    LevelUpMenuCOntroller levelUp;
+    public GameObject UI;
+    public GameObject GameOver;
     private void Awake()
     {
-       
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
     }
-
-    [SerializeField]
-    [Header("Base Stats")]
-    public  float baseHealthMultiplier = 1;
-    public  float baseSpeedMultiplier = 1;
-    public  float baseDamageMultiplier = 1;
-    public  float basePickupRangeMultoiplier = 1;
-
-    [Header("Level Stats")]
+    private void Start()
+    {
+        MenuController = GameObject.FindGameObjectWithTag("UI");
+        levelUp=MenuController.GetComponent<LevelUpMenuCOntroller>();
+    }
     [SerializeField]
     public  float castSpeedMultiplier = 1; // remember to minus this for faster casr times so .95 for 5% faster speed
     public  float healthMultiplier = 1;
@@ -47,5 +55,30 @@ public class PlayerStats : ScriptableSingleton<PlayerStats>
     public float XPToNextLevel = 2;
     public float XPMultiplier = 2;
     
-    
+    public void UpdateStats()
+    {
+        GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        if(characterClass == School.Fire)
+        {
+            FireMagicController fire = WeaponManager.WeaponManagerInstance.magicInventory[0].GetComponent<FireMagicController>();
+            fire.damage *= (damageMultiplier * healthMultiplier);
+            fire.castcooldown*= castSpeedMultiplier;
+
+        }
+        HealthManager health = Player.GetComponent<HealthManager>();
+        health.ChangeMaxHealthMultiplier(healthMultiplier);
+        PlayerMovement movement = Player.GetComponent<PlayerMovement>();
+        movement.moveSpeed = movement.basemoveSpeed * speedMultiplier;
+    }
+
+    public void DeathSequence()
+    {
+        Time.timeScale = 0f;
+        UI.SetActive(false);
+        GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        AudioSource audio = Player.GetComponent<AudioSource>();
+        audio.Pause();
+        GameOver.SetActive(true);
+
+    }
 }

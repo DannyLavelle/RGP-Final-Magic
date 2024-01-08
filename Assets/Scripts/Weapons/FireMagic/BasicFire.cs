@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
 
 public class BasicFire : MonoBehaviour
@@ -58,12 +58,12 @@ public class BasicFire : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("basic fire colliding");
+        //Debug.Log("basic fire colliding");
         if (collision.gameObject.tag == "Enemy")
         {
             HealthManager healthManager = collision.gameObject.GetComponent<HealthManager>();
             healthManager.DecreaseHealthflat(hitDamage);
-            Debug.Log("DamagedEnemyWithBasicFire " + hitDamage);
+            //Debug.Log("DamagedEnemyWithBasicFire " + hitDamage);
             if (!peircing)
             {
                 Destroy(gameObject);
@@ -71,6 +71,7 @@ public class BasicFire : MonoBehaviour
 
         }
     }
+   
     public void GetStats(float damage, bool peirce,float despawnTime)
     {
         hitDamage = damage;

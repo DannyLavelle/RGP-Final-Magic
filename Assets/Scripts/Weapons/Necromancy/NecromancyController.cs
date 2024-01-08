@@ -7,13 +7,13 @@ public class NecromancyController : MonoBehaviour
 {
     //TODO create level list (lv5 spawn skeletons)   
     float timer;
-    public float castcooldown = 15;
+    public float castcooldown = 25;
     public float speedMultiplier;
     public float SoulsCollected;
     public int level = 0;
     public int maxLevel = 5;
     float ExtraSpawns = 1;
-    float soulsPerZombie = 3;
+    float soulsPerZombie = 2;
     float soulsPerSkeleton = 4;
    bool summonSkeletons = false;
     public Transform castPoint; //the players aim arrow not the player, may need to rotate 180 degrees but i will check later;
@@ -22,6 +22,7 @@ public class NecromancyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SoulsCollected = 0;
         speedMultiplier = PlayerStats.instance.castSpeedMultiplier;
         GameObject castPointObject = GameObject.FindWithTag("castPoint");
         castPoint = castPointObject.transform;
@@ -41,8 +42,7 @@ public class NecromancyController : MonoBehaviour
 
     void CastSpell()
     {
-        if (SoulsCollected > 0)
-        {
+        
             float zombiesToSpawn = (SoulsCollected / soulsPerZombie) + ExtraSpawns;
 
             // Loop to spawn zombies
@@ -78,7 +78,7 @@ public class NecromancyController : MonoBehaviour
                     GameObject spawnedskeleton = Instantiate(Skeleton, spawnPosition, transform.rotation);
                 }
             }
-        }
+        
 
         SoulsCollected = 0;
     }
